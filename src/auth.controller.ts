@@ -1,16 +1,19 @@
-import {Body, Controller, HttpStatus, Post, Res} from '@nestjs/common';
+import {Body, Controller, Get, HttpStatus, Post, Res} from '@nestjs/common';
 import type { FastifyReply } from 'fastify';
 import {Throttle} from "@nestjs/throttler";
 import '@fastify/cookie';
 import {config} from "./main"
 
-@Controller('login')
-export class LoginController {
+@Controller('auth')
+export class AuthController {
     constructor() {
     }
 
+    @Get('check')
+    check() {}
+
     @Throttle({default: {ttl: 60000, limit: 5}})
-    @Post()
+    @Post('login')
     login(@Body() body: any, @Res({passthrough: true}) response: FastifyReply) {
         if (body.password === undefined) {
             response
@@ -38,6 +41,19 @@ export class LoginController {
             .status(HttpStatus.OK)
             .send({
                 message: "Logged in",
+            });
+    }
+
+    @Post('logout')
+    logout(@Res({passthrough: true}) response: FastifyReply) {
+        response.clearCookie('password', {
+            httpOnly: true,
+            path: '/api',
+            sameSite: 'strict',
+        })
+            .status(HttpStatus.OK)
+            .send({
+                message: "Logged out",
             });
     }
 }

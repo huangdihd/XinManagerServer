@@ -8,6 +8,7 @@ class Bot{
     private version: string;
     private server: string;
     private username: string;
+    private available: boolean = false;
 
     constructor(prismaBot: {id: number, url: string, token: string}) {
         this.id = prismaBot.id;
@@ -45,11 +46,13 @@ class Bot{
             this.version = statusResponse.data.version;
             this.server = statusResponse.data.server;
             this.username = statusResponse.data.username;
+            this.available = true;
         } catch (error) {
             console.error(`Bot ${this.id} update failed:`, error.message);
             this.server = "Unknown";
             this.version = "Unknown";
             this.username = "Unknown";
+            this.available = false;
         }
     }
 
