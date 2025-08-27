@@ -16,25 +16,35 @@
  */
 
 import {MiddlewareConsumer, Module, RequestMethod} from "@nestjs/common";
-import {PerformanceController} from "./performance.controller";
+import {ConfigController} from "./config.controller";
+import {ConfigService} from "./config.service";
 import {AuthorizationMiddleware} from "./authorization.middleware";
 
 @Module({
     imports: [],
     controllers: [
-        PerformanceController,
+        ConfigController,
     ],
     providers: [
-        PerformanceController,
+        ConfigService
     ],
 })
-export class PerformanceModule {
+export class ConfigModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
             .apply(AuthorizationMiddleware)
             .forRoutes({
-                path: "/performance",
-                method: RequestMethod.ALL,
-            })
+                    path: "/config",
+                    method: RequestMethod.ALL
+                },
+                {
+                    path: "/config/bbtt_fetch_interval",
+                    method: RequestMethod.ALL
+                },
+                {
+                    path: "/config/bots_fetch_interval",
+                    method: RequestMethod.ALL
+                },
+            )
     }
 }
