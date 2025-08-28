@@ -18,6 +18,7 @@
 import axios from "axios";
 import { PrismaClient } from "@prisma/client";
 import {config} from "./main";
+import console from 'node:console';
 
 class Bot{
     private readonly id: number;
@@ -55,11 +56,16 @@ class Bot{
             return;
         }
         try {
-            const statusResponse = await axios.get(new URL("status", this.url).toString(), {
-                headers: {
-                    'Authorization': `Bearer ${this.token}`
+            const statusUrl = new URL("status", this.url)
+            const statusResponse = await axios.get(
+                statusUrl.toString(),
+                {
+                    headers: {
+                        "Authorization": `Bearer ${this.token}`
+                    },
+                    proxy: false,
                 }
-            });
+            );
             console.log(`Bot ${this.id} updated successfully:`, statusResponse.data);
             this.version = statusResponse.data.version;
             this.server = statusResponse.data.server;
@@ -149,7 +155,7 @@ export class BotManager {
     public async fetchUpdates(): Promise<void> {
         console.log("fetching updates");
         for (const bot of this.getBots()) {
-            bot.fetchUpdate();
+            await bot.fetchUpdate();
         }
     }
 }
