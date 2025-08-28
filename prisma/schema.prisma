@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "bots.db"
+  url      = "file:./bots.db"
 }
 
 model Bot {
