@@ -29,8 +29,8 @@ export interface Config {
 
 export function loadConfig() {
     let cfg: Config | undefined = undefined;
-    if (fs.existsSync("config.json")) {
-        cfg = JSON.parse(fs.readFileSync("config.json", "utf-8")) as Config;
+    if (fs.existsSync("../config.json")) {
+        cfg = JSON.parse(fs.readFileSync("../config.json", "utf-8")) as Config;
     }
     if (cfg === undefined) {
         console.log("config.json is empty");
@@ -41,7 +41,7 @@ export function loadConfig() {
             bots_fetch_interval: 10000,
             bbtt_fetch_interval: 10000,
         }
-        fs.writeFileSync("config.json", JSON.stringify(cfg, null, 4));
+        fs.writeFileSync("../config.json", JSON.stringify(cfg, null, 4));
     }
 
     console.log("password: " + cfg.password);
@@ -49,5 +49,5 @@ export function loadConfig() {
 }
 
 export function saveConfig() {
-    fs.writeFileSync("config.json", JSON.stringify(config, null, 4));
+    fs.writeFileSync("../config.json", JSON.stringify(config, null, 4));
 }
