@@ -15,11 +15,10 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Body, Controller, Get, Param, Patch, Res} from "@nestjs/common";
+import {Body, Controller, Get, Patch, Res} from "@nestjs/common";
 import {config} from "./main";
-import {loadConfig, saveConfig} from "./config";
+import {saveConfig} from "./config";
 import type {FastifyReply} from "fastify";
-import fs from "node:fs";
 
 @Controller('config')
 export class ConfigController {
