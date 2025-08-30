@@ -59,4 +59,7 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 /config.json
 
+/bots.db
 /prisma/bots.db
+/prismaClient/
+/prismaClient/*

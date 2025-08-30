@@ -47,7 +47,8 @@ export class BotsController {
             response.status(HttpStatus.BAD_REQUEST).send({message: 'Bad request'});
             return;
         }
-        if (!URL.parse(body.url)) {
+        const url = new URL(body.url);
+        if (!url) {
             response.status(HttpStatus.BAD_REQUEST).send({message: 'Url is invalid'});
             return;
         }

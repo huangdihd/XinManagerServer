@@ -16,7 +16,7 @@
  */
 
 import axios from "axios";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "prismaClient";
 import {config} from "./main";
 import console from 'node:console';
 

@@ -17,17 +17,17 @@
 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as fs from "node:fs";
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import {Config, loadConfig} from "./config";
-import { randomStringGenerator } from "@nestjs/common/utils/random-string-generator.util";
+import { loadConfig } from "./config";
 import fastifyCookie from "@fastify/cookie";
 import * as console from "node:console";
 import {BotManager, updateBots} from "./Bot";
 import { updateServerInfo } from "./bbtt";
 
+export let app: NestFastifyApplication;
+
 async function bootstrap() {
-    const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ trustProxy: true }));
+    app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ trustProxy: true }));
     // @ts-ignore
     await app.register(fastifyCookie, {
         secret: config?.cookie_secret
@@ -35,7 +35,7 @@ async function bootstrap() {
     app.enableCors({
         credentials: true,
     });
-    await app.listen(process.env.PORT ?? 3001);
+    await app.listen(process.env.XM_SERVER_PORT ?? 3001);
 }
 
 export const config = loadConfig();
